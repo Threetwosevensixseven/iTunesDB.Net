@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\DataObjectAttribute.cs" />
+    <Compile Include="Database\DbList.cs" />
     <Compile Include="Enumerations\CodingFormats.cs" />
     <Compile Include="Database\IDbObject.cs" />
     <Compile Include="Database\ListContainer.cs" />

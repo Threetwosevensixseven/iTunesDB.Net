@@ -20,6 +20,7 @@ namespace iTunesDB.Net.Readers
             var db = (iTunesDb)ParentDbObject;
 
             listContainer.ListType = ReadEnum<ListTypes>(Reader);
+            db.ListContainers.Add(listContainer);
         }
     }
 }

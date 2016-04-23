@@ -15,7 +15,7 @@ namespace iTunesDB.Net.Readers
         public override string[] ChildIDs { get { return new string[0]; } }
         public override Type DatabaseType { get { return typeof(DataObject); } }
         public static List<DO> TrackTypes;
-        public static List<DO> PlayListItemTypes;
+        public static List<DO> PlayListTypes;
         public static List<DO> MhipObjectTypes;
 
         protected override void ParseiTunesObject(BinaryReader Reader)
@@ -31,10 +31,10 @@ namespace iTunesDB.Net.Readers
                 var track = (Track)ParentDbObject;
                 TrackTypes.Add(dobj.Type);
             }
-            else if (ParentDbObject is PlayListItem)
+            else if (ParentDbObject is PlayList)
             {
-                var plitem = (PlayListItem)ParentDbObject;
-                PlayListItemTypes.Add(dobj.Type);
+                var playList = (PlayList)ParentDbObject;
+                PlayListTypes.Add(dobj.Type);
             }
             else if (ParentDbObject is MhipObject)
             {

@@ -42,6 +42,7 @@ namespace iTunesDB.Net.Readers
             Db.UnknownBytes = ReadRemainingBytes(Reader);
             Db.Tracks = new TrackList();
             Db.PlayLists = new PlayLists();
+            Db.ListContainers = new List<ListContainer>();
         }
     }
 }

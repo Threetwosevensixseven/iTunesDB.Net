@@ -13,5 +13,6 @@ namespace iTunesDB.Net.Database
         public byte[] UnknownBytes { get; set; }
         public TrackList Tracks { get; set; }
         public PlayLists PlayLists { get; set; }
+        public List<ListContainer> ListContainers { get; set; }
     }
 }

@@ -17,14 +17,15 @@ namespace iTunesDB.Net.Readers
 
         protected override void ParseiTunesObject(BinaryReader Reader)
         {
-            var trackList = (TrackList)DbObject;
+            var trackList = (DbList)DbObject;
             var listContainer = (ListContainer)ParentDbObject;
             var db = (iTunesDb)GrandparentDbObject;
 
             if (listContainer.ListType != ListTypes.Tracks)
                 throw new InvalidOperationException("Invalid ListType " 
                     + listContainer.ListType.ToString() + " for TrackList container");
-            db.Tracks = trackList;
+            db.Tracks = (TrackList)trackList;
+            listContainer.Add(trackList);
         }
     }
 }

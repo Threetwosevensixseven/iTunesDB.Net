@@ -5,7 +5,7 @@ using System.Text;
 
 namespace iTunesDB.Net.Database
 {
-    public class PlayLists : List<PlayList>, IDbObject
+    public class PlayLists : DbList
     {
     }
 }

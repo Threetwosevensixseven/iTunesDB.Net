@@ -11,7 +11,7 @@ namespace iTunesDB.Net.Tests
     [TestClass]
     public class TrackListTests : TestBase
     {
-        [TestMethod, TestCategory("TrackList")]
+        [TestMethod, TestCategory("iTunesDb")]
         public void TrackList_TrackCount()
         {
             var rdrListContainer = Reader.Children.FirstOrDefault(r => ((ListContainer)(r.DbObject)).ListType == ListTypes.Tracks);
