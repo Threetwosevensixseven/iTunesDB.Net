@@ -16,7 +16,7 @@ namespace iTunesDB.Net.Readers
         protected override bool WhileCondition { get { return TotalSize > Children.Count; } }
         public static readonly ListTypes[] AllowedLists = new ListTypes[] { ListTypes.PlayList, ListTypes.SpecialPodcastPlayList };
 
-        protected override void ParseiTunesObject(BinaryReader Reader)
+        protected override bool ParseiTunesObject(BinaryReader Reader)
         {
             var playLists = (DbList)DbObject;
             var listContainer = (ListContainer)ParentDbObject;
@@ -26,6 +26,7 @@ namespace iTunesDB.Net.Readers
                 throw new InvalidOperationException("Invalid ListType "
                     + listContainer.ListType.ToString() + " for TrackList container");
             listContainer.Add(playLists);
+            return true;
         }
     }
 }

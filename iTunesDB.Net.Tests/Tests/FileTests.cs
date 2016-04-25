@@ -21,7 +21,7 @@ namespace iTunesDB.Net.Tests
         [ExpectedException(typeof(FileNotFoundException))]
         public void InvalidDbCannotBeOpened()
         {
-            MhbdReader.Open("C:\\INVALID_DIRECTORY\\INVALID_FILE");
+            new MhbdReader().Open("C:\\INVALID_DIRECTORY\\INVALID_FILE");
         }
     }
 }

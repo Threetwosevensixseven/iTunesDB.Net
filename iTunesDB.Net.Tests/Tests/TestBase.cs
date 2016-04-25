@@ -22,11 +22,10 @@ namespace iTunesDB.Net.Tests
         [AssemblyInitialize()]
         public static void AssemblyInitialize(TestContext Context)
         {
-            MhodReader.TrackTypes = new List<DataObjects>();
-            MhodReader.PlayListTypes = new List<DataObjects>();
-            MhodReader.MhipObjectTypes = new List<DataObjects>();
-            Reader = MhbdReader.Open(DbFilePath + "iTunesDB");
-            Db = Reader.Db;
+            #if !ASYNC
+            Reader = new MhbdReader();
+            Db = Reader.Open(DbFilePath + "iTunesDB");
+            #endif
         }
 
         public static int DbFileSize

@@ -31,17 +31,37 @@ namespace iTunesDB.Net.Readers.DataObjects
                     .FirstOrDefault(a => ((DataObjectAttribute)a).Value.Equals(dotype.ToString(), StringComparison.InvariantCultureIgnoreCase));
                 if (attr == null) continue;
                 pi.SetValue(ParentDbObject, text, null);
+                SetAdditionalDataObject(ParentDbObject, pi.Name, text);
                 return;
             }
             foreach (var pi in ParentDbObject.GetType().GetProperties())
             {
                 if (!pi.Name.Equals(dotype.ToString(), StringComparison.InvariantCultureIgnoreCase)) continue;
                 pi.SetValue(ParentDbObject, text, null);
+                SetAdditionalDataObject(ParentDbObject, pi.Name, text);
                 return;
             }
 
             throw new InvalidOperationException(ParentDbObject.GetType().Name 
                 + " does not have a property matching the " + dotype.ToString() + " object type.");
+        }
+
+        private void SetAdditionalDataObject(IDbObject Object, string Name, string Value)
+        {
+            if (Name == "Location")
+            {
+                var pi = ParentDbObject.GetType().GetProperty("LocationWindows");
+                if (pi == null) return;
+                if (Value == null) return;
+                string val = Value.Replace(':', Path.DirectorySeparatorChar);
+                var dbrdr = (MhbdReader)ParentReader.ParentReader.ParentReader.ParentReader.ParentReader;
+                var db = (iTunesDb)dbrdr.DbObject;
+                int pos = db.FileName.IndexOf(@"\iPod_Control\");
+                if (pos < 0) return;
+                string prefix = db.FileName.Substring(0, pos);
+                string loc = prefix + val;
+                pi.SetValue(Object, loc, null);
+            }
         }
     }
 }

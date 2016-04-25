@@ -17,7 +17,7 @@ namespace iTunesDB.Net.Readers
         public override Type DatabaseType { get { return typeof(Track); } }
         internal int TrackEntries { get; set; }
 
-        protected override void ParseiTunesObject(BinaryReader Reader)
+        protected override bool ParseiTunesObject(BinaryReader Reader)
         {
             var track = (Track)DbObject;
             var trackList = (TrackList)ParentDbObject;
@@ -53,6 +53,15 @@ namespace iTunesDB.Net.Readers
             track.ApplicationRating = ReadByte(Reader);
             track.BPM = ReadInt16(Reader);
             //if (track.BPM > 0) Debugger.Break();
+
+            return true;
+        }
+
+        protected override bool RaiseEvent(BinaryReader Reader)
+        {
+            var dbReader = (MhbdReader)(ParentReader.ParentReader.ParentReader);
+            var track = (Track)DbObject;
+            return dbReader.OnTrackRead(ParentReader.TotalSize, dbReader.Db.Tracks.Count, track);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using iTunesDB.Net.Attributes;
@@ -50,6 +51,7 @@ namespace iTunesDB.Net.Database
         public DateTime DateAdded { get; set; }
         public string PersistentID { get; set; }
         public string Location { get; set; }
+        public string LocationWindows { get; set; }
         public bool Checked { get; set; }
         public byte ApplicationRating { get; set; }
         public int ApplicationStars { get { return Convert.ToInt32(Math.Round(ApplicationRating / 20d, 0)); } }

@@ -14,13 +14,14 @@ namespace iTunesDB.Net.Readers
         public override string[] ChildIDs { get { return new string[] { "mhlt", "mhlp" }; } }
         public override Type DatabaseType { get { return typeof(ListContainer); } }
 
-        protected override void ParseiTunesObject(BinaryReader Reader)
+        protected override bool ParseiTunesObject(BinaryReader Reader)
         {
             var listContainer = (ListContainer)DbObject;
             var db = (iTunesDb)ParentDbObject;
 
             listContainer.ListType = ReadEnum<ListTypes>(Reader);
             db.ListContainers.Add(listContainer);
+            return true;
         }
     }
 }

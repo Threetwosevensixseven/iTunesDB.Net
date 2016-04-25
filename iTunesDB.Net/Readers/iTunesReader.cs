@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -12,7 +13,7 @@ using iTunesDB.Net.Readers.DataObjects;
 
 namespace iTunesDB.Net
 {
-    internal abstract class iTunesReader
+    public abstract class iTunesReader
     {
         public abstract string ObjectID { get; }
         public abstract string[] ChildIDs { get; }
@@ -75,21 +76,28 @@ namespace iTunesDB.Net
             throw new ArgumentException("No data reader for data object \"" + DataObjectKind.ToString() + "\".");
         }
 
-        protected void Parse(BinaryReader Reader)
+        protected bool Parse(BinaryReader Reader)
         {
             ReadObjectSize(Reader);
             ReadTotalSize(Reader);
             DbObject = CreateDbObject();
-            ParseiTunesObject(Reader);
+            if (!ParseiTunesObject(Reader)) return false;
             ReadRemainingBytes(Reader);
-            ParseChildren(Reader);
+            if (!ParseChildren(Reader)) return false;
+            return RaiseEvent(Reader);
         }
 
-        protected virtual void ParseiTunesObject(BinaryReader Reader)
+        protected virtual bool ParseiTunesObject(BinaryReader Reader)
         {
+            return true;
         }
 
-        private int ParseChildren(BinaryReader Reader)
+        protected virtual bool RaiseEvent(BinaryReader Reader)
+        {
+            return true;
+        }
+
+        private bool ParseChildren(BinaryReader Reader)
         {
             while (WhileCondition)
             {
@@ -101,9 +109,9 @@ namespace iTunesDB.Net
                 }
                 var child = CreateReader(id, this);
                 Children.Add(child);
-                child.Parse(Reader);
+                if (!child.Parse(Reader)) return false;
             }
-            return ObjectSize;
+            return true;
         }
 
         protected virtual bool WhileCondition

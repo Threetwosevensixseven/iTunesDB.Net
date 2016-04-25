@@ -15,7 +15,7 @@ namespace iTunesDB.Net.Readers
         public override Type DatabaseType { get { return typeof(TrackList); } }
         protected override bool WhileCondition { get { return TotalSize > Children.Count; } }
 
-        protected override void ParseiTunesObject(BinaryReader Reader)
+        protected override bool ParseiTunesObject(BinaryReader Reader)
         {
             var trackList = (DbList)DbObject;
             var listContainer = (ListContainer)ParentDbObject;
@@ -26,6 +26,7 @@ namespace iTunesDB.Net.Readers
                     + listContainer.ListType.ToString() + " for TrackList container");
             db.Tracks = (TrackList)trackList;
             listContainer.Add(trackList);
+            return true;
         }
     }
 }

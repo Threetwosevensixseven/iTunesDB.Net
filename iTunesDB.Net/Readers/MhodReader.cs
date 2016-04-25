@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using iTunesDB.Net.Database;
 using iTunesDB.Net.Enumerations;
-using DO = iTunesDB.Net.Enumerations.DataObjects; 
+using DO = iTunesDB.Net.Enumerations.DataObjects;
 
 namespace iTunesDB.Net.Readers
 {
@@ -14,18 +14,18 @@ namespace iTunesDB.Net.Readers
         public override string ObjectID { get { return "mhod"; } }
         public override string[] ChildIDs { get { return new string[0]; } }
         public override Type DatabaseType { get { return typeof(DataObject); } }
-        public static List<DO> TrackTypes;
-        public static List<DO> PlayListTypes;
-        public static List<DO> MhipObjectTypes;
+        public static List<DO> TrackTypes = new List<DO>();
+        public static List<DO> PlayListTypes = new List<DO>();
+        public static List<DO> MhipObjectTypes = new List<DO>();
 
-        protected override void ParseiTunesObject(BinaryReader Reader)
+        protected override bool ParseiTunesObject(BinaryReader Reader)
         {
             ObjectSize = TotalSize;
             var dobj = (DataObject)DbObject;
             dobj.Type = ReadEnum<DO>(Reader);
             var rdr = CreateDataObjectReader(dobj.Type, this);
             rdr.ParseDataObject(Reader);
-            
+
             if (ParentDbObject is Track)
             {
                 var track = (Track)ParentDbObject;
@@ -42,6 +42,7 @@ namespace iTunesDB.Net.Readers
                 MhipObjectTypes.Add(dobj.Type);
             }
             else throw new Exception("Unknown mhod parent type");
+            return true;
         }
     }
 }
